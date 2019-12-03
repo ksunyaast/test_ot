@@ -1,0 +1,106 @@
+<h1 class="mb-4">Список организаций</h1>
+
+<div *ngIf="isSuperUser" class="admin-tools">
+  <div class="btn-group btn-group mb-3" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-link" (click)="addCompany()">Добавить организацию</button>
+      <button type="button" class="btn btn-link" (click)="addBranch()">Добавить филиал</button>
+  </div>
+
+  <form class="w-50 p-3" [style.display]="formCompany==true?'block':'none'">
+    <div class="form-group mb-3">
+      <label for="fullNameInput">Полное наименование</label>
+      <input type="text" class="form-control" id="fullNameInput" name="fullName" [(ngModel)]="fullName" placeholder="ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ &quot;РОГА И КОПЫТА&quot;" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="shortNameInput">Сокращенное название</label>
+      <input type="text" class="form-control" id="shortNameInput" name="shortName" [(ngModel)]="shortName" placeholder="ООО &quot;Рога и Копыта&quot;" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="innInput">ИНН</label>
+      <input type="text" class="form-control" id="innInput" name="inn" [(ngModel)]="inn" placeholder="2464075137" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="kppInput">КПП</label>
+      <input type="text" class="form-control" id="kppInput" name="kpp" [(ngModel)]="kpp" placeholder="246401001" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="founderInput">Учредитель (ФИО)</label>
+      <input type="text" class="form-control" id="founderInput" name="founder" [(ngModel)]="founder" placeholder="Иванов Иван Иванович" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="addressInput">Адрес</label>
+      <input type="text" class="form-control" id="addressInput" name="address" [(ngModel)]="address" placeholder="Красноярский край, город Красноярск, улица Лесников, 58а" required>
+    </div>
+    <div class="form-group mb-3">
+      <label for="telephoneInput">Телефон</label>
+      <input type="text" class="form-control" id="telephoneInput" name="telephone" [(ngModel)]="telephone" placeholder="79561584556" required>
+    </div>
+  
+    <button type="submit" class="btn btn-primary mb-2 mr-3" (click)="saveCompany(fullName, shortName, inn, kpp, founder, address, telephone)">Сохранить</button>
+    <button type="submit" class="btn btn-secondary mb-2" (click)="cancel()">Отмена</button>
+  </form>
+
+  <form class="w-50 p-3" [style.display]="formBranch==true?'block':'none'">
+      <div class="form-group mb-3">
+        <label for="companySelect">Организация</label>
+        <select id="companySelect" class="form-control" name="company" [(ngModel)]="company" required>
+          <option *ngFor="let c of companies" [value]="c.fullName">{{ c.fullName }}</option>
+        </select>
+      </div>
+      <div class="form-group mb-3">
+        <label for="executiveInput">Должностное лицо</label>
+        <input type="text" class="form-control" id="executiveInput" name="executive" [(ngModel)]="executive" placeholder="Иванов Иван Иванович" required>
+      </div>
+      <div class="form-group mb-3">
+        <label for="addressInput">Адрес</label>
+        <input type="text" class="form-control" id="addressInput" name="address" [(ngModel)]="address" placeholder="Красноярский край, город Красноярск, улица Лесников, 58а" required>
+      </div>
+      <div class="form-group mb-3">
+        <label for="telephoneInput">Телефон</label>
+        <input type="text" class="form-control" id="telephoneInput" name="telephone" [(ngModel)]="telephone" placeholder="79561584556" required>
+      </div>
+    
+      <button type="submit" class="btn btn-primary mb-2 mr-3" (click)="saveBranch(company, executive, address, telephone)">Сохранить</button>
+      <button type="submit" class="btn btn-secondary mb-2" (click)="cancel()">Отмена</button>
+    </form>
+</div>
+
+<div class="btn-group btn-group-sm mb-2" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-outline-primary" (click)="hideBranches()">Свернуть</button>
+    <button type="button" class="btn btn-outline-primary" (click)="showBranches()">Развернуть</button>
+</div>
+<table class="table table-responsive">
+  <thead class="thead-dark text-center align-middle">
+    <tr>
+      <th>#</th>
+      <th>Полное наименование</th>
+      <th>Сокращенное название</th>
+      <th>ИНН</th>
+      <th>КПП</th>
+      <th>Учредитель (ФИО)</th>
+      <th>Адрес</th>
+      <th>Телефон</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-c [ngForOf]="companies">
+      <tr class="table-active">
+        <td class="text-center">{{ c.id }}</td>
+        <td>{{ c.fullName }}</td>
+        <td>{{ c.shortName }}</td>
+        <td>{{ c.inn }}</td>
+        <td>{{ c.kpp }}</td>
+        <td>{{ c.founder }}</td>
+        <td>{{ c.address }}</td>
+        <td>{{ c.telephone }}</td>
+      </tr>
+          <tr *ngFor="let b of c.branches; let i = index" [style.display]="visibility==true?'table-row':'none'">
+            <td>-</td>
+            <td colspan="4">Филиал № {{i+1}}</td>
+            <td>{{ b.executive }}</td>
+            <td>{{ b.address }}</td>
+            <td>{{ b.telephone }}</td>
+          </tr>
+    </ng-template>
+  </tbody>
+</table>

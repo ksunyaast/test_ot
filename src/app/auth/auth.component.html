@@ -1,0 +1,14 @@
+<form class="w-25 p-3">
+    <h2 class="text-center">Авторизация</h2>
+    <div class="form-group">
+      <label for="usernameInput">Ваша электронная почта:</label>
+      <input name="email" type="email" [(ngModel)] = "user.username" class="form-control" id="usernameInput" placeholder="E-mail" required autofocus>
+    </div>
+    <div class="form-group">
+      <label for="passwordInput">Ваш пароль:</label>
+      <input name="password" type="password" [(ngModel)] = "user.password" class="form-control" id="passwordInput" placeholder="Пароль" required>
+    </div>
+    <div class="form-group">
+        <input type="submit" (click)="validateLogin();" class="mt-4 btn btn-primary btn-block btn-lg" value="Вход" />
+    </div>
+</form>
